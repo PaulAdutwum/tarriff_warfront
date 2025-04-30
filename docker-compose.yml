@@ -1,0 +1,117 @@
+version: "3.8"
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+    depends_on:
+      - backend
+    networks:
+      - tariff_war_network
+
+  # Backend service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/tariff_war
+      - MONGODB_URI=mongodb://mongo:27017/tariff_war
+      - JWT_SECRET=your_jwt_secret_change_in_production
+      - AI_SERVICE_URL=http://ai-service:8000
+    depends_on:
+      - postgres
+      - mongo
+    networks:
+      - tariff_war_network
+
+  # AI service
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ai-service:/app
+    environment:
+      - OPENAI_API_KEY=your_openai_api_key
+      - MONGODB_URI=mongodb://mongo:27017/tariff_war
+    depends_on:
+      - mongo
+    networks:
+      - tariff_war_network
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=tariff_war
+    networks:
+      - tariff_war_network
+
+  # MongoDB database
+  mongo:
+    image: mongo:5
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - tariff_war_network
+
+  # pgAdmin for PostgreSQL management
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@tariffwar.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - postgres
+    networks:
+      - tariff_war_network
+
+  # Mongo Express for MongoDB management
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+    depends_on:
+      - mongo
+    networks:
+      - tariff_war_network
+
+volumes:
+  postgres_data:
+  mongo_data:
+
+networks:
+  tariff_war_network:
+    driver: bridge

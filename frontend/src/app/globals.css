@@ -1,0 +1,90 @@
+/* ————— Tailwind v4 “CSS-first” setup ————— */
+
+/* 1) Import the whole framework */
+@import "tailwindcss";   /* This pulls in reset, components and utilities all at once  [oai_citation:0‡Stack Overflow](https://stackoverflow.com/questions/79380519/how-to-upgrade-tailwindcss?utm_source=chatgpt.com) */
+
+/* 2) (Optional) Define any theme variables that should generate utilities */
+/*    e.g. colors, breakpoints, fonts, etc. */
+@theme {
+  /* these will become CSS variables AND generate matching utility classes */
+  --color-foreground: 0 0 0;
+  --color-background-start: 240 240 240;
+  --color-background-end: 255 255 255;
+
+  /* you can also define your own semantic tokens here */
+  --color-accent: oklch(0.6 0.5 270);
+}
+
+/* 3) Your custom CSS variables or styles that don’t map to utilities */
+:root {
+  --fg-rgb: var(--color-foreground);
+  --bg-start-rgb: var(--color-background-start);
+  --bg-end-rgb: var(--color-background-end);
+}
+
+/* Dark mode via prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg-rgb: 255 255 255;
+    --bg-start-rgb: 10 10 10;
+    --bg-end-rgb: 30 30 30;
+  }
+}
+
+/* 4) Your global styles */
+body {
+  color: rgb(var(--fg-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--bg-end-rgb))
+    )
+    rgb(var(--bg-start-rgb));
+}
+
+/* rest of your utilities, animations, container rules… */* src/app/globals.css */
+
+
+/* Background pattern */
+.bg-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Staggered animation delays for children */
+.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* Container styles */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px)  { .container { max-width:  640px; } }
+@media (min-width: 768px)  { .container { max-width:  768px; } }
+@media (min-width: 1024px) { .container { max-width: 1024px; } }
+@media (min-width: 1280px) { .container { max-width: 1280px; } }
+@media (min-width: 1536px) { .container { max-width: 1536px; } }

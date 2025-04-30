@@ -1,0 +1,215 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  password        String
+  name            String?
+  role            UserRole  @default(USER)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  alerts          Alert[]
+  savedSearches   SavedSearch[]
+  reports         Report[]
+}
+
+enum UserRole {
+  USER
+  ANALYST
+  ADMIN
+}
+
+model Country {
+  id               String     @id @default(uuid())
+  name             String     @unique
+  code             String     @unique
+  region           String
+  flagUrl          String?
+  economicStatus   String?
+  tariffFromSource TariffEvent[] @relation("SourceCountry")
+  tariffToTarget   TariffEvent[] @relation("TargetCountry")
+  sectorData       SectorData[]
+}
+
+model Sector {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  description String?
+  tariffs     TariffEvent[]
+  sectorData  SectorData[]
+}
+
+model TariffEvent {
+  id               String   @id @default(uuid())
+  sourceCountryId  String
+  sourceCountry    Country  @relation("SourceCountry", fields: [sourceCountryId], references: [id])
+  targetCountryId  String
+  targetCountry    Country  @relation("TargetCountry", fields: [targetCountryId], references: [id])
+  sectorId         String
+  sector           Sector   @relation(fields: [sectorId], references: [id])
+  tariffRate       Float
+  previousRate     Float?
+  announcementDate DateTime
+  effectiveDate    DateTime
+  expiryDate       DateTime?
+  description      String?
+  impactScore      Float?    // AI-calculated impact score
+  sourceUrl        String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  stockImpacts     StockImpact[]
+}
+
+model SectorData {
+  id          String   @id @default(uuid())
+  countryId   String
+  country     Country  @relation(fields: [countryId], references: [id])
+  sectorId    String
+  sector      Sector   @relation(fields: [sectorId], references: [id])
+  gdpValue    Float
+  exportValue Float
+  importValue Float
+  employment  Int?
+  year        Int
+  quarter     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([countryId, sectorId, year, quarter])
+}
+
+model StockMarket {
+  id       String        @id @default(uuid())
+  name     String        @unique
+  code     String        @unique
+  country  String
+  stocks   Stock[]
+  impacts  StockImpact[]
+}
+
+model Stock {
+  id           String       @id @default(uuid())
+  symbol       String       @unique
+  name         String
+  marketId     String
+  market       StockMarket  @relation(fields: [marketId], references: [id])
+  sector       String
+  currentPrice Float
+  priceHistory StockPrice[]
+  impacts      StockImpact[]
+}
+
+model StockPrice {
+  id        String   @id @default(uuid())
+  stockId   String
+  stock     Stock    @relation(fields: [stockId], references: [id])
+  date      DateTime
+  openPrice Float
+  highPrice Float
+  lowPrice  Float
+  closePrice Float
+  volume    Int
+  createdAt DateTime @default(now())
+
+  @@unique([stockId, date])
+}
+
+model StockImpact {
+  id            String      @id @default(uuid())
+  tariffEventId String
+  tariffEvent   TariffEvent @relation(fields: [tariffEventId], references: [id])
+  stockId       String
+  stock         Stock       @relation(fields: [stockId], references: [id])
+  marketId      String
+  market        StockMarket @relation(fields: [marketId], references: [id])
+  priceChangePct Float
+  volumeChangePct Float?
+  correlationScore Float?
+  analysisText  String?
+  createdAt     DateTime    @default(now())
+}
+
+model NewsArticle {
+  id            String   @id @default(uuid())
+  title         String
+  content       String
+  summary       String?  // AI-generated summary
+  source        String
+  author        String?
+  publishedDate DateTime
+  url           String   @unique
+  imageUrl      String?
+  sentiment     String?  // positive, negative, neutral
+  relevanceScore Float?
+  keyPhrases    String[]
+  countries     String[]
+  sectors       String[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Alert {
+  id          String       @id @default(uuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id])
+  alertType   AlertType
+  countries   String[]
+  sectors     String[]
+  keywords    String[]
+  minTariffRate Float?
+  active      Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+enum AlertType {
+  NEW_TARIFF
+  TARIFF_CHANGE
+  NEWS
+  MARKET_IMPACT
+}
+
+model SavedSearch {
+  id          String     @id @default(uuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  name        String
+  countries   String[]
+  sectors     String[]
+  dateRange   String?
+  keywords    String[]
+  createdAt   DateTime   @default(now())
+}
+
+model Report {
+  id          String     @id @default(uuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  title       String
+  description String?
+  type        ReportType
+  format      String     // PDF, CSV, etc.
+  url         String
+  createdAt   DateTime   @default(now())
+}
+
+enum ReportType {
+  TARIFF_ANALYSIS
+  SECTOR_IMPACT
+  MARKET_CORRELATION
+  CUSTOM
+}
