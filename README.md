@@ -8,7 +8,7 @@ A single-page full-stack web application designed to make **trade-policy analyti
 
 ## 🎥 Demo Video
 
-Watch the live demo of **Tariff War** in action:
+
 
 [![Tariff War Demo](https://img.youtube.com/vi/ZMTcpeIl2yE/maxresdefault.jpg)](https://www.youtube.com/watch?v=ZMTcpeIl2yE)
 
