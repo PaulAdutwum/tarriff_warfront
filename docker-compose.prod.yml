@@ -1,0 +1,89 @@
+version: "3.8"
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${API_URL}
+    networks:
+      - tariff_war_network
+    restart: unless-stopped
+
+  # Backend service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/tariff_war
+      - MONGODB_URI=mongodb://mongo:27017/tariff_war
+      - JWT_SECRET=${JWT_SECRET}
+      - AI_SERVICE_URL=http://ai-service:8000
+      - NEWS_API_KEY=${NEWS_API_KEY}
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
+      - WORLD_BANK_API_KEY=${WORLD_BANK_API_KEY}
+    depends_on:
+      - postgres
+      - mongo
+    networks:
+      - tariff_war_network
+    restart: unless-stopped
+
+  # AI service
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MONGODB_URI=mongodb://mongo:27017/tariff_war
+    depends_on:
+      - mongo
+    networks:
+      - tariff_war_network
+    restart: unless-stopped
+
+  # PostgreSQL database
+  postgres:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=tariff_war
+    networks:
+      - tariff_war_network
+    restart: unless-stopped
+
+  # MongoDB database
+  mongo:
+    image: mongo:5
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - tariff_war_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  mongo_data:
+
+networks:
+  tariff_war_network:
+    driver: bridge

@@ -9,6 +9,7 @@ from typing import List, Optional, Dict, Any
 import os
 import json
 from dotenv import load_dotenv
+from app.routers import tariff
 
 # Load environment variables
 load_dotenv()
@@ -27,6 +28,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers
+app.include_router(tariff.router)
 
 # Models
 class NewsArticle(BaseModel):
