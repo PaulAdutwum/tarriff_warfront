@@ -6,6 +6,22 @@ A single-page full-stack web application designed to make **trade-policy analyti
 
 ---
 
+---
+
+## 🚧 Project Status & What’s Next
+
+**Today (v0.3 Alpha)**  
+- The live **dashboard, map, and time‑series charts** are up and running with hourly tariff feeds from WTO, USTR, and USITC.  
+- AI summaries are generated via the OpenAI GPT‑4 API, giving one‑sentence context for each new policy event.  
+
+**In Progress (Shipping Soon)**  
+- **Trend‑forecast module:** we’re integrating a PyTorch + TensorFlow Lite model to predict sector‑level tariff impacts 30 days out, so users can see “what’s likely next.”  
+- **Enhanced NLP:** migrating the quick‑summary pipeline to a compact TensorFlow text model for faster, on‑device inference (edge caching).  
+- **User watchlists & alert rules:** subscribe to specific HS codes, countries, or sectors and receive instant email/SMS notifications.  
+
+Stay tuned—new features drop every two weeks, and you can follow progress on the [roadmap board](../../projects) or open an issue to request a feature.
+
+
 ## 🎥 Demo Video
 
 
