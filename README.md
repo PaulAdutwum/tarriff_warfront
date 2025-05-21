@@ -2,7 +2,7 @@
 
 **Global Tariff Impact Tracker & Educational Analytics Platform**
 
-A full-stack web application designed to make **trade-policy analytics** **clear**, **interactive**, and **actionable**—so that **policymakers**, **researchers**, **educators**, and **new readers** can immediately grasp the impact of ongoing tariff changes and share insights with their followers or stakeholders.
+I developed a full-stack platform for real-time trade policy analysis and public insight delivery. Built with Next.js and NestJS, the application aggregates live tariff data from official sources like the USTR and WTO, integrating it with real-time market indicators to provide a unified view of policy impact. I designed and implemented interactive dashboards featuring maps, graphs, and AI-generated summaries to help policymakers, educators, and researchers quickly grasp complex trade shifts. To streamline information consumption, I integrated natural language summarization models that condense over 1,000 daily updates into actionable insights to reduce plicy research times. The platform was built to serve both technical and non-technical audiences, with customizable visualizations and exportable reports for stakeholder communication.
 
 ---
 
