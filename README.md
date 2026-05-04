@@ -1,4 +1,3 @@
-````markdown
 # Market Pulse
 
 ## Stock Market and Options Risk Intelligence Platform
@@ -15,18 +14,18 @@ Built using TypeScript, Next.js, Python, FastAPI, PostgreSQL, and OpenAI GPT-4, 
 
 Market Pulse focuses on three core problems:
 
-1. Fragmented financial data across multiple APIs and providers
-2. Slow manual interpretation of market-moving events
-3. Difficulty translating options activity and volatility signals into actionable insights
+1. Fragmented financial data across multiple APIs and providers  
+2. Slow manual interpretation of market-moving events  
+3. Difficulty translating options activity and volatility signals into actionable insights  
 
 ### To solve this, the platform:
 
-- Extracts stock price data, options chain metrics, implied volatility signals, and macroeconomic indicators from financial APIs
-- Processes and normalizes incoming JSON payloads using Python-based ETL pipelines
-- Stores structured datasets in PostgreSQL for querying and analytics
-- Uses GPT-4 summarization workflows to generate readable financial briefs
-- Exposes RESTful APIs for low-latency delivery to the frontend dashboard
-- Provides interactive visualization tools for market monitoring and decision support
+- Extracts stock price data, options chain metrics, implied volatility signals, and macroeconomic indicators from financial APIs  
+- Processes and normalizes incoming JSON payloads using Python-based ETL pipelines  
+- Stores structured datasets in PostgreSQL for querying and analytics  
+- Uses GPT-4 summarization workflows to generate readable financial briefs  
+- Exposes RESTful APIs for low-latency delivery to the frontend dashboard  
+- Provides interactive visualization tools for market monitoring and decision support  
 
 The goal is to provide a clean and reliable system for understanding risk exposure and market movement without requiring users to manually interpret large volumes of raw financial data.
 
@@ -67,11 +66,11 @@ Financial summaries and market briefs can be exported for research, internal rep
 ## Built With
 
 | Layer | Tools and Technologies |
-| --- | --- |
+|---|---|
 | Frontend | Next.js, TypeScript, Tailwind CSS |
 | Data Visualization | Chart.js, Recharts |
 | Backend | Python, FastAPI |
-| Databases | PostgreSQL |
+| Database | PostgreSQL |
 | AI and NLP | OpenAI GPT-4 API, Pydantic |
 | DevOps | Docker, GitHub Actions |
 | Deployment | Vercel, Render |
@@ -86,32 +85,3 @@ Financial summaries and market briefs can be exported for research, internal rep
 ```bash
 git clone https://github.com/YOUR-USERNAME/market-pulse.git
 cd market-pulse
-````
-
-### Install Dependencies
-
-```bash
-npm install
-pip install -r requirements.txt
-```
-
-### Start the Frontend
-
-```bash
-npm run dev
-```
-
-### Start the Backend
-
-```bash
-uvicorn app.main:app --reload
-```
-
-### Run with Docker
-
-```bash
-docker-compose up --build
-```
-
-```
-```
