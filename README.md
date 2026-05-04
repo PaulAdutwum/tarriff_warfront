@@ -1,76 +1,117 @@
-# Tariff Warfront
+````markdown
+# Market Pulse
 
-**Global Tariff Impact Tracker & Educational Analytics Platform**
+## Stock Market and Options Risk Intelligence Platform
 
-I developed a full-stack platform for real-time trade policy analysis and public insight delivery. Built with Next.js and NestJS, the application aggregates live tariff data from official sources like the USTR and WTO, integrating it with real-time market indicators to provide a unified view of policy impact. I designed and implemented interactive dashboards featuring maps, graphs, and AI-generated summaries to help policymakers, educators, and researchers quickly grasp complex trade shifts. To streamline information consumption, I integrated natural language summarization models that condense over 1,000 daily updates into actionable insights to reduce plicy research times. The platform was built to serve both technical and non-technical audiences, with customizable visualizations and exportable reports for stakeholder communication.
+Market Pulse is a full-stack financial intelligence platform built to help users monitor market risk, options activity, and macroeconomic events in real time. The system aggregates live financial data from multiple public market data sources, normalizes the information through ETL pipelines, and transforms it into structured insights for faster decision-making.
 
----
+The platform was designed to reduce the friction involved in monitoring stock market volatility, unusual options activity, earnings-driven movement, and macroeconomic events that impact portfolio risk. Instead of manually tracking multiple financial sources, users can access a centralized dashboard with AI-generated summaries, visual analytics, and structured market intelligence.
 
-
-## 🎥 Demo Video
-
-
-
-[![Tariff War Demo](https://img.youtube.com/vi/ZMTcpeIl2yE/maxresdefault.jpg)](https://www.youtube.com/watch?v=ZMTcpeIl2yE)
+Built using TypeScript, Next.js, Python, FastAPI, PostgreSQL, and OpenAI GPT-4, the platform serves both technical and non-technical users by combining data engineering, backend infrastructure, and applied AI into a single workflow.
 
 ---
 
+## Project Overview
 
-## 🚀 Key Features
+Market Pulse focuses on three core problems:
 
-- **Live Tariff Feed**  
-  Fetch Section 301/232 and MFN rates for 100+ countries (USTR, WTO, USITC).
+1. Fragmented financial data across multiple APIs and providers
+2. Slow manual interpretation of market-moving events
+3. Difficulty translating options activity and volatility signals into actionable insights
 
-- **Interactive Map & Charts**  
-  Color-coded world map + graphs by country or economic sector (e.g. Healthcare, Education, Transportation).
+### To solve this, the platform:
 
-- **AI-Powered Summaries**  
-  Sentence breakdowns of the latest trade-policy news (via OpenAI GPT-4).
+- Extracts stock price data, options chain metrics, implied volatility signals, and macroeconomic indicators from financial APIs
+- Processes and normalizes incoming JSON payloads using Python-based ETL pipelines
+- Stores structured datasets in PostgreSQL for querying and analytics
+- Uses GPT-4 summarization workflows to generate readable financial briefs
+- Exposes RESTful APIs for low-latency delivery to the frontend dashboard
+- Provides interactive visualization tools for market monitoring and decision support
 
-- **Detail Panels & Glossary**  
-  Click any event to see definitions, policy links, impact metrics, and related news—perfect for educational walkthroughs.
-
-- **Custom Alerts & Exports**  
-  Subscribe to email/SMS alerts or generate on-demand CSV/PDF reports for easy distribution.
-
-- **User Notes & Collaboration**  
-  Add comments, upvote expert analyses, and tag “must-share” events for your network.
+The goal is to provide a clean and reliable system for understanding risk exposure and market movement without requiring users to manually interpret large volumes of raw financial data.
 
 ---
 
-## 🚧 Project Status & What’s Next
+## Key Features
 
-**Today (v0.3 Alpha)**  
-- The live **dashboard, map, and time‑series charts** are up and running with hourly tariff feeds from WTO, USTR, and USITC.  
-- AI summaries are generated via the OpenAI GPT‑4 API, giving one‑sentence context for each new policy event.  
+### Live Market Data Ingestion
 
-**In Progress (Shipping Soon)**  
-- **Trend‑forecast module:** we’re integrating a PyTorch + TensorFlow Lite model to predict sector‑level tariff impacts 30 days out, so users can see “what’s likely next.”  
-- **Enhanced NLP:** migrating the quick‑summary pipeline to a compact TensorFlow text model for faster, on‑device inference (edge caching).  
-- **User watchlists & alert rules:** subscribe to specific HS codes, countries, or sectors and receive instant email/SMS notifications.  
+Fetches stock price movements, options chain metrics, implied volatility signals, earnings updates, and macroeconomic indicators from public financial APIs and economic data sources.
 
-Stay tuned—new features drop every two weeks, and you can follow progress on the [roadmap board](../../projects) or open an issue to request a feature.
+### ETL Pipeline Architecture
 
+Python and FastAPI services validate, normalize, and transform raw financial data into consistent relational models stored in PostgreSQL for reliable analytics and reporting.
 
-## 🛠️ Built With
+### AI-Powered Market Briefs
 
-| Layer            | Tools & Technologies                          |
-| ---------------- | --------------------------------------------- |
-| **Frontend**     | Next.js 14 + TypeScript <br> Tailwind CSS v4   |
-| **Data Viz**     | Mapbox GL JS <br> Chart.js / Recharts         |
-| **State & Fetch**| React Query / SWR                             |
-| **Backend**      | NestJS + TypeScript <br> FastAPI (Python)     |
-| **Databases**    | PostgreSQL (Prisma ORM) <br> MongoDB Atlas     |
-| **AI/NLP**       | OpenAI GPT-4 API <br> Pydantic                |
-| **DevOps**       | Docker & Docker Compose <br> GitHub Actions   |
-| **Deployment**   | Vercel (frontend) <br> Render (backend)       |
-| **Monitoring**   | Sentry                                        |
+GPT-4-powered summarization workflows process over 1,000 daily updates and generate concise briefs covering price movement, options activity, volatility shifts, and risk mitigation insights.
+
+### Interactive Dashboard and Visual Analytics
+
+Frontend dashboards include charts for stock movement, options flow tracking, volatility monitoring, and macroeconomic event timelines with filtering by ticker, sector, and event category.
+
+### REST API Platform
+
+Low-latency API endpoints allow the TypeScript frontend to fetch structured insights, summaries, and market analytics efficiently for real-time user interaction.
+
+### Watchlists and Risk Monitoring
+
+Users can track specific equities, sectors, or macroeconomic events and monitor unusual activity through structured alerts and historical comparisons.
+
+### Exportable Reports
+
+Financial summaries and market briefs can be exported for research, internal reporting, or decision support across trading and analytics workflows.
 
 ---
 
-## 📈 Getting Started
+## Built With
 
-1. **Clone the repo**  
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/tariff-warfront.git
-   cd tariff-warfront
+| Layer | Tools and Technologies |
+| --- | --- |
+| Frontend | Next.js, TypeScript, Tailwind CSS |
+| Data Visualization | Chart.js, Recharts |
+| Backend | Python, FastAPI |
+| Databases | PostgreSQL |
+| AI and NLP | OpenAI GPT-4 API, Pydantic |
+| DevOps | Docker, GitHub Actions |
+| Deployment | Vercel, Render |
+| Monitoring | Sentry |
+
+---
+
+## Getting Started
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/YOUR-USERNAME/market-pulse.git
+cd market-pulse
+````
+
+### Install Dependencies
+
+```bash
+npm install
+pip install -r requirements.txt
+```
+
+### Start the Frontend
+
+```bash
+npm run dev
+```
+
+### Start the Backend
+
+```bash
+uvicorn app.main:app --reload
+```
+
+### Run with Docker
+
+```bash
+docker-compose up --build
+```
+
+```
+```
